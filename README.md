@@ -85,16 +85,8 @@ Reply to Gmail Message
 
 ## 📸 Workflow Screenshot
 
-> Add your workflow screenshot here.
-
-Example:
-
-```
 <img width="1227" height="552" alt="WhatsApp Image 2026-07-21 at 9 45 36 PM" src="https://github.com/user-attachments/assets/b941a9a7-968d-46de-8769-9f3cc179474b" />
 
-```
-
----
 
 ## 📬 Connect With Me
 
