@@ -90,9 +90,9 @@ Reply to Gmail Message
 
 ## 📬 Connect With Me
 
-**Mehedi Hasan**
+**Mehedi Hasan Sizan**
 
-- LinkedIn: [https://www.linkedin.com/in/your-profile](https://www.linkedin.com/in/mehedi-hasan-sizan/)
+- LinkedIn: [https://www.linkedin.com/in/mehedi-hasan-sizan/]
 
 ---
 
