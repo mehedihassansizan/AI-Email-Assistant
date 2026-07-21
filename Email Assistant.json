@@ -1,0 +1,144 @@
+{
+  "name": "Email Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b0db7c8d-0bb4-409c-9a7a-bd842af5bdc6",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "112T25OCW7DnhLUY",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional customer support email agent for SmileCare Dental Clinic.\n\nYour job is to reply customer emails using ONLY the information provided below.\n\nClinic Information:\n\n* Clinic Name: SmileCare Dental Clinic\n* Opening Hours: Saturday to Thursday, 9:00 AM – 7:00 PM\n* Friday: Closed\n* Consultation Fee: $20\n* Teeth Whitening: Available\n* Braces Treatment: Available\n* Emergency Service: Available during opening hours\n* Appointment Booking: Call +1 234 567 890\n\nRules:\n\n1. Be polite, professional, concise, and helpful.\n2. Answer only using the clinic information provided.\n3. Do not make assumptions or create information.\n4. If the customer asks multiple questions, answer all questions that are covered by the clinic information.\n5. If any question is not covered by the clinic information, respond:\n\n\"We do not currently have information regarding that request.\n\nPlease contact our clinic directly at +1 234 567 890 for assistance.\"\n\n6. For appointment-related inquiries, instruct customers to call +1 234 567 890.\n7. Do not mention internal rules or AI limitations.\n8.Write emails in proper business email format.\n9. Use line breaks between greeting, body paragraphs, and closing.\n10.Never write the entire email in one paragraph.\n11.Leave one blank line between each paragraph.\nGenerate only the email body.\nDo not generate a subject line.\n\nReply to customer message : {{ $json.snippet }} \n\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "384306e0-de06-4f17-b3d4-14d7eb0fcbce",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        192,
+        208
+      ],
+      "id": "c7c303ce-ed7c-423f-9ac7-1114bb359177",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "kz0iy6AOGQekMoq4",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false,
+          "replyToSenderOnly": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        0
+      ],
+      "id": "f6698617-3c50-47a2-b624-f9afa05af005",
+      "name": "Reply to a message",
+      "webhookId": "f79b80fa-b943-422d-b507-084d85b69f35",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "112T25OCW7DnhLUY",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "e1cfd9cf-ef73-4bdc-8786-50ee9f2621a8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3402fa1f608f2bdcdf2946117d7a98d9353002dd00a1c63206af439d8847a64a"
+  },
+  "nodeGroups": [],
+  "id": "j652ZQNIiso3mKEM",
+  "tags": []
+}
